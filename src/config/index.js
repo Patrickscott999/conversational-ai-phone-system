@@ -1,32 +1,43 @@
 /**
  * Configuration Management
  * Loads and validates environment variables
+ * Railway-compatible: gracefully handles missing environment variables
  */
 
 require('dotenv').config();
 
+// Helper function to safely get environment variables
+function getEnvVar(name, defaultValue = null) {
+    try {
+        return process.env[name] || defaultValue;
+    } catch (error) {
+        console.warn(`Warning: Could not load environment variable ${name}`);
+        return defaultValue;
+    }
+}
+
 const config = {
     // Server Configuration
     server: {
-        port: process.env.PORT || 3000,
-        host: process.env.HOST || 'localhost',
-        environment: process.env.NODE_ENV || 'development'
+        port: parseInt(getEnvVar('PORT', '3000')),
+        host: getEnvVar('HOST', '0.0.0.0'), // Railway needs 0.0.0.0
+        environment: getEnvVar('NODE_ENV', 'development')
     },
 
-    // Twilio Configuration
+    // Twilio Configuration (optional for startup)
     twilio: {
-        accountSid: process.env.TWILIO_ACCOUNT_SID,
-        authToken: process.env.TWILIO_AUTH_TOKEN,
-        phoneNumber: process.env.TWILIO_PHONE_NUMBER,
-        webhookUrl: process.env.TWILIO_WEBHOOK_URL || 'http://localhost:3000/webhook/voice'
+        accountSid: getEnvVar('TWILIO_ACCOUNT_SID'),
+        authToken: getEnvVar('TWILIO_AUTH_TOKEN'),
+        phoneNumber: getEnvVar('TWILIO_PHONE_NUMBER'),
+        webhookUrl: getEnvVar('TWILIO_WEBHOOK_URL', 'http://localhost:3000/webhook/voice')
     },
 
-    // OpenAI Configuration
+    // OpenAI Configuration (optional for startup)
     openai: {
-        apiKey: process.env.OPENAI_API_KEY,
-        model: process.env.OPENAI_MODEL || 'gpt-4',
-        maxTokens: parseInt(process.env.OPENAI_MAX_TOKENS) || 150,
-        temperature: parseFloat(process.env.OPENAI_TEMPERATURE) || 0.7
+        apiKey: getEnvVar('OPENAI_API_KEY'),
+        model: getEnvVar('OPENAI_MODEL', 'gpt-4.1'),
+        maxTokens: parseInt(getEnvVar('OPENAI_MAX_TOKENS', '1000')),
+        temperature: parseFloat(getEnvVar('OPENAI_TEMPERATURE', '0.7'))
     },
 
     // ElevenLabs Configuration

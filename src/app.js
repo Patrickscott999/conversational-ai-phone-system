@@ -145,14 +145,17 @@ function startServer() {
         config.validateConfig();
         
         // Start listening
-        const server = app.listen(config.server.port, config.server.host, () => {
-            logger.info(`🚀 Conversational AI Server started`, {
-                host: config.server.host,
-                port: config.server.port,
+        const PORT = process.env.PORT || config.server.port || 3000;
+        const HOST = process.env.HOST || '0.0.0.0'; // Railway requires 0.0.0.0
+
+        const server = app.listen(PORT, HOST, () => {
+            logger.info('🚀 Conversational AI server started', {
+                host: HOST,
+                port: PORT,
                 environment: config.server.environment,
                 endpoints: {
-                    health: `http://${config.server.host}:${config.server.port}/health`,
-                    voice: `http://${config.server.host}:${config.server.port}/webhook/voice`
+                    health: `http://${HOST}:${PORT}/health`,
+                    voice: `http://${HOST}:${PORT}/webhook/voice`
                 }
             });
             
