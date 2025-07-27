@@ -28,7 +28,7 @@ class TwilioService {
             input: 'speech',
             timeout: 10,
             speechTimeout: 'auto',
-            action: '/webhook/process-speech',
+            action: 'https://web-production-cb494.up.railway.app/webhook/process-speech',
             method: 'POST'
         });
         
@@ -37,7 +37,7 @@ class TwilioService {
             voice: 'alice'
         }, 'I didn\'t hear anything. Please try speaking again.');
         
-        twiml.redirect('/webhook/voice');
+        twiml.redirect('https://web-production-cb494.up.railway.app/webhook/voice');
         
         return twiml.toString();
     }
@@ -56,7 +56,7 @@ class TwilioService {
             input: 'speech',
             timeout: 10,
             speechTimeout: 'auto',
-            action: '/webhook/process-speech',
+            action: 'https://web-production-cb494.up.railway.app/webhook/process-speech',
             method: 'POST'
         });
         
@@ -66,7 +66,7 @@ class TwilioService {
         }, 'I didn\'t hear anything. Please speak again or say goodbye if you\'d like to end the call.');
         
         // Redirect back to continue conversation instead of hanging up
-        twiml.redirect('/webhook/process-speech');
+        twiml.redirect('https://web-production-cb494.up.railway.app/webhook/process-speech');
         
         return twiml.toString();
     }
@@ -82,7 +82,7 @@ class TwilioService {
             input: 'speech',
             timeout: 10,
             speechTimeout: 'auto',
-            action: '/webhook/process-speech',
+            action: 'https://web-production-cb494.up.railway.app/webhook/process-speech',
             method: 'POST'
         });
         

@@ -12,10 +12,10 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const phoneNumber = process.env.TWILIO_PHONE_NUMBER;
 
-// Your tunnel URL (LocalTunnel - more stable than ngrok free)
-const TUNNEL_URL = 'https://rotten-roses-chew.loca.lt';
-const WEBHOOK_URL = `${TUNNEL_URL}/webhook/voice`;
-const STATUS_CALLBACK_URL = `${TUNNEL_URL}/webhook/status`;
+// Your Railway deployment URL (permanent and stable)
+const RAILWAY_URL = 'https://web-production-cb494.up.railway.app';
+const WEBHOOK_URL = `${RAILWAY_URL}/webhook/voice`;
+const STATUS_CALLBACK_URL = `${RAILWAY_URL}/webhook/status`;
 
 const client = twilio(accountSid, authToken);
 
