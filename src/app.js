@@ -29,18 +29,35 @@ app.use((req, res, next) => {
     next();
 });
 
-// Health check endpoint
+// Health check endpoint - Railway compatible
 app.get('/health', (req, res) => {
-    res.json({
-        status: 'healthy',
-        timestamp: new Date().toISOString(),
-        version: '1.0.0',
-        services: {
-            twilio: !!config.twilio.accountSid,
-            openai: !!config.openai.apiKey,
-            elevenlabs: !!config.elevenlabs.apiKey
+    try {
+        const healthStatus = {
+            status: 'healthy',
+            timestamp: new Date().toISOString(),
+            version: '1.0.0',
+            uptime: process.uptime(),
+            environment: process.env.NODE_ENV || 'development'
+        };
+        
+        // Only check services if config is loaded
+        if (config && config.twilio && config.openai && config.elevenlabs) {
+            healthStatus.services = {
+                twilio: !!config.twilio.accountSid,
+                openai: !!config.openai.apiKey,
+                elevenlabs: !!config.elevenlabs.apiKey
+            };
         }
-    });
+        
+        res.status(200).json(healthStatus);
+    } catch (error) {
+        // Fallback health response if there are any issues
+        res.status(200).json({
+            status: 'starting',
+            timestamp: new Date().toISOString(),
+            message: 'Server is starting up'
+        });
+    }
 });
 
 // Root endpoint
