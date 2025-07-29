@@ -175,16 +175,10 @@ class OpenAIService {
     /**
      * Generate a phone-optimized response
      */
-    async generatePhoneResponse(conversationHistory, userInput) {
+    async generatePhoneResponse(conversationHistory) {
         try {
-            // Add the latest user input to conversation
-            const messages = [
-                ...conversationHistory,
-                {
-                    role: 'user',
-                    content: userInput
-                }
-            ];
+            // conversationHistory already contains the latest user input
+            const messages = [...conversationHistory];
 
             // Generate AI response
             const result = await this.generateResponse(messages);
@@ -201,8 +195,7 @@ class OpenAIService {
 
         } catch (error) {
             logger.error('Failed to generate phone response', {
-                error: error.message,
-                userInput: userInput.substring(0, 100)
+                error: error.message
             });
 
             // Fallback response
