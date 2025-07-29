@@ -75,7 +75,7 @@ class VoiceController {
             const conversationHistory = conversationManager.getConversationHistory(CallSid);
             
             // Generate AI response using OpenAI
-            const aiResult = await openaiService.generatePhoneResponse(conversationHistory, SpeechResult);
+            const aiResult = await openaiService.generatePhoneResponse(conversationHistory);
             
             // Update conversation context based on AI analysis
             if (aiResult.analysis) {
